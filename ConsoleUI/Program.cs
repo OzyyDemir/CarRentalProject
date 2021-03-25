@@ -9,9 +9,17 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarTest();
+            //CarTest();
             //BrandTest();
-
+            CustomerTest();
+        }
+        private static void CustomerTest()
+        {
+            CustomerManager  customerManager = new CustomerManager(new EfCustomerDal());
+            foreach (var customer in customerManager.GetCustomerDetails().Data)
+            {
+                Console.WriteLine(customer.CompanyName);
+            }
         }
 
         private static void BrandTest()
