@@ -9,9 +9,9 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            //CarTest();
+             //CarTest();
             //BrandTest();
-            CustomerTest();
+            //CustomerTest();
         }
         private static void CustomerTest()
         {
@@ -25,7 +25,7 @@ namespace ConsoleUI
         private static void BrandTest()
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
-            foreach (var brand in brandManager.GetAll())
+            foreach (var brand in brandManager.GetAll().Data)
             {
                 Console.WriteLine(brand.Name);
             }
