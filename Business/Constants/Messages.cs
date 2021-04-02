@@ -1,6 +1,7 @@
 ﻿using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Business.Constants
@@ -16,5 +17,8 @@ namespace Business.Constants
         public static string BrandAdded="Marka eklendi";
         public static string BrandDeleted="Marka silindi";
         public static string BrandUpdated="Marka güncellendi";
+        public static string CarImageAdded="Araba Resmi eklendi";
+        public static string FailedCarImageAdd = "Resim yüklenirken hata oluştu";
+        public static string AuthorizationDenied="Yetkilendirme hatası";
     }
 }
