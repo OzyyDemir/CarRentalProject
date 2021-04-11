@@ -10,50 +10,55 @@ namespace Core.Utilities.Helpers
 {
     public class FileHelper
     {
-
-        public static string Add(IFormFile file)
+        private static string _currentDirectory = Environment.CurrentDirectory + "\\wwwroot";
+        private static string _folderName = "\\images\\";
+        public static IResult Add(IFormFile file)
         {
-            var result = newPath(file);
+            var type = Path.GetExtension(file.FileName).ToLower();
+            var randomName = Guid.NewGuid().ToString();
 
-            var sourcepath = Path.GetTempFileName();
-
-            using (var stream = new FileStream(sourcepath, FileMode.Create))
-            {
-                file.CopyTo(stream);
-            }
-
-            File.Move(sourcepath, result.newPath);
-
-            return result.Path2;
+            CheckDirectoryExists(_currentDirectory + _folderName);
+            CreateImageFile(_currentDirectory + _folderName + randomName + type, file);
+            return new SuccessResult((_folderName + randomName + type).Replace("\\", "/"));
         }
-
-        public static string Update(string sourcePath, IFormFile file)
+        private static void CheckDirectoryExists(string directory)
         {
-            var result = newPath(file);
-            using (var stream = new FileStream(result.newPath, FileMode.Create))
+            if (!Directory.Exists(directory))
             {
-                file.CopyTo(stream);
+                Directory.CreateDirectory(directory);
             }
-
-            File.Delete(sourcePath);
-
-            return result.Path2;
         }
-
+        private static void CreateImageFile(string directory, IFormFile file)
+        {
+            using (FileStream fs = File.Create(directory))
+            {
+                file.CopyTo(fs);
+                fs.Flush();
+            }
+        }
         public static IResult Delete(string path)
         {
-            File.Delete(path);
+            DeleteOldImageFile((_currentDirectory + path).Replace("/", "\\"));
             return new SuccessResult();
         }
-
-        public static (string newPath, string Path2) newPath(IFormFile file)
+        private static void DeleteOldImageFile(string directory)
         {
-            FileInfo ff = new FileInfo(file.FileName);
-            string fileExtension = ff.Extension;
-            var newFileName = Guid.NewGuid().ToString("N") + fileExtension;
-            string path12 = @"\wwwroot\Images\";
-            string result = Environment.CurrentDirectory + path12 + newFileName;
-            return (result, $"\\Images\\{newFileName}");
+            if (File.Exists(directory.Replace("/", "\\")))
+            {
+                File.Delete(directory.Replace("/", "\\"));
+            }
+
+        }
+
+        public static IResult Update(IFormFile file, string imagePath)
+        {
+            var type = Path.GetExtension(file.FileName).ToLower();
+            var randomName = Guid.NewGuid().ToString();
+
+            DeleteOldImageFile((_currentDirectory + imagePath).Replace("/", "\\"));
+            CheckDirectoryExists(_currentDirectory + _folderName);
+            CreateImageFile(_currentDirectory + _folderName + randomName + type, file);
+            return new SuccessResult((_folderName + randomName + type).Replace("\\", "/"));
         }
     }
 }
