@@ -36,5 +36,9 @@ namespace Business.Constants
         public static string UserAvailable = "Kullanıcı uygun";
         public static string UserAdded = "Kullanıcı eklendi";
         public static string CarImageCarIdInvalid = "Resim nesnesinin id si geçersiz";
+        internal static string RentalAdded;
+        internal static string RentalFailedAdded;
+        internal static string InvalidSale;
+        internal static string ColorAdded;
     }
 }

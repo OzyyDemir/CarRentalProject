@@ -35,6 +35,16 @@ namespace Business.Concrete
             throw new NotImplementedException();
         }
 
+        public IDataResult<List<Customer>> GetById()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IDataResult<List<Customer>> GetById(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IDataResult<List<CustomerDetailDto>> GetCustomerDetails()
         {
             return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails());
@@ -42,7 +52,7 @@ namespace Business.Concrete
 
         public IResult Update(Customer customer)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(c => c.CustomerId == customer.CustomerId));
         }
     }
 }
